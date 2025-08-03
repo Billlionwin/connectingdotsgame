@@ -11,6 +11,7 @@ SCREEN_SIZE = 600
 
 BLACK = "#000000"
 COLORS = ["#FF0000", "#00FF00", "#0000FF", "#FFFF00", "#FF00FF", "#FFA500", "#00FFFF", "#800080", "#583927"]
+BACKGROUND_COLORS = ["#FF0000", "#FFFF00", "#0000FF"]
 
 LEVELS = [
     {COLORS[0]: [(0, 0), (5, 0)], COLORS[1]: [(1, 1), (4, 4)], COLORS[2]: [(3, 2), (5, 1)], COLORS[3]: [(0, 1), (2, 2)], COLORS[5]: [(1, 2), (1, 4)], 'size': 6},
@@ -60,6 +61,7 @@ class ConnectingDotsGame:
             self.create_button(SCREEN_SIZE // 2, 200, "Create Your Own Level", lambda: self.change_menu_state("select_grid_size"))
             self.create_button(SCREEN_SIZE // 2, 250, "Load Saved Level", lambda: self.handle_load_button_click())
             self.create_button(SCREEN_SIZE // 2, 300, "How to Play", lambda: self.change_menu_state("how_to_play"))
+            self.animate_menu()
         elif self.menu_state == "select_level":
             self.canvas.create_text(SCREEN_SIZE // 2, 50, text="Select Level", font=("Avenir", 20))
             self.create_button(60, 50, "Back", lambda: self.change_menu_state("main"))
@@ -97,6 +99,34 @@ class ConnectingDotsGame:
             is solvable.
 
             """, font=("Avenir", 20), anchor="center")
+
+    def animate_menu(self):
+        '''Display dots in the bottom of menu and animate paths connecting them.'''
+        self.canvas.create_oval(450, SCREEN_SIZE - 150, 500, SCREEN_SIZE - 200, fill=BACKGROUND_COLORS[2], outline=BACKGROUND_COLORS[2])
+        self.canvas.create_oval(25, SCREEN_SIZE - 75, 75, SCREEN_SIZE - 125, fill=BACKGROUND_COLORS[1], outline=BACKGROUND_COLORS[1])
+        self.canvas.create_oval(300, SCREEN_SIZE - 150, 350, SCREEN_SIZE - 200, fill=BACKGROUND_COLORS[0], outline=BACKGROUND_COLORS[0])
+        
+        def extend_line(x, y, length, direction, color):
+            '''Extend the line every 0.5 seconds.'''
+            directions = {
+            "right": (1, 0),
+            "left": (-1, 0),
+            "down": (0, 1),
+            "up": (0, -1)
+            }
+            if self.menu_state == "main":
+                if length > 0:
+                    dx, dy = directions[direction]
+                    self.canvas.create_line(x, y, x + dx, y + dy, fill=color, width=20, capstyle="round")
+                    self.root.after(2, extend_line, x + dx, y + dy, length - 1, direction, color)
+    
+        extend_line(0, SCREEN_SIZE - 25, 475, "right", BACKGROUND_COLORS[2])
+        self.canvas.after(1600, lambda: extend_line(475, SCREEN_SIZE - 25, 125, "up", BACKGROUND_COLORS[2]))
+        self.canvas.after(2000, lambda: extend_line(550, SCREEN_SIZE + 100, 350, "up", BACKGROUND_COLORS[1]))
+        self.canvas.after(3300, lambda: extend_line(550, 350, 150, "left", BACKGROUND_COLORS[1]))
+        self.canvas.after(4000, lambda: extend_line(400, 350, 150, "down", BACKGROUND_COLORS[1]))
+        self.canvas.after(4700, lambda: extend_line(400, 500, 350, "left", BACKGROUND_COLORS[1]))
+        self.canvas.after(6200, lambda: extend_line(0, SCREEN_SIZE - 175, 325, "right", BACKGROUND_COLORS[0]))
 
     def set_grid_size(self, size):
         global GRID_SIZE, CELL_SIZE, SCREEN_SIZE
