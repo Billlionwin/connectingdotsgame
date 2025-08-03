@@ -11,7 +11,7 @@ SCREEN_SIZE = 600
 
 BLACK = "#000000"
 COLORS = ["#FF0000", "#00FF00", "#0000FF", "#FFFF00", "#FF00FF", "#FFA500", "#00FFFF", "#800080", "#583927"]
-BACKGROUND_COLORS = ["#FF0000", "#FFFF00", "#0000FF"]
+BACKGROUND_COLORS = ["#FB3B3B", "#FAFA45", "#50FFFF"]
 
 LEVELS = [
     {COLORS[0]: [(0, 0), (5, 0)], COLORS[1]: [(1, 1), (4, 4)], COLORS[2]: [(3, 2), (5, 1)], COLORS[3]: [(0, 1), (2, 2)], COLORS[5]: [(1, 2), (1, 4)], 'size': 6},
@@ -326,7 +326,6 @@ class ConnectingDotsGame:
                     self.canvas.create_oval(x * CELL_SIZE + CELL_SIZE/4, y * CELL_SIZE + CELL_SIZE/4 + 50, (x + 1) * CELL_SIZE - CELL_SIZE/4, (y + 1) * CELL_SIZE - CELL_SIZE/4 + 50, fill=color, outline=color)
                     drawn_positions.add(pos)
 
-
     def draw_game(self):
         self.canvas.delete("all")
         self.draw_grid()
@@ -341,7 +340,6 @@ class ConnectingDotsGame:
             self.draw_level_number()
         self.create_button(60, 25, "Menu", lambda e: self.handle_menu_button_click(e))
     
-   
     def solve_button(self):
         if self.custom_level:
             success = self.solve_custom_level()
