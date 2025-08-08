@@ -26,7 +26,7 @@ A simple game built with Python and Tkinter. Your task is to connect all matchin
 Saved levels are saved in:
 
 ```bash
-/Users/win/ConnectingDotsLevels/
+/Users/username/ConnectingDotsLevels/
 ```
 
 ---
