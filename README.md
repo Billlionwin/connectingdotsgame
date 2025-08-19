@@ -43,7 +43,7 @@ pip install pygame
 ```bash
 python connectingdotsgame.py
 ```
-### Alternatively, download the MacOS app and run directly
+### Or download dmg file for MacOS or executable file for Windows and run directly
 
 #### 🛡️ MacOS security notice (Gatekeeper)
 
